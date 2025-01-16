@@ -22,9 +22,9 @@ To deploy and run, you will need 3 components(or 2 if you're using end-to-end) <
 Components: <br>
 - Script on the bot that can connect to websockets
 - A locally hosted websocket server that serves as a median
-- Custom dashboard code deployed<br>
+- Custom locally hosted dashboard<br>
 
 
-In order to run the script on the bot, have it embedded or called within a teleop or auto(not tested) class. To run the websocket server, run a simple handler while connected to the bot wifi and bind the websocket to the bots IP `192.168.43.62:PORT` To run the dashboard code, cd into the directory containing the code for the dashboard and run `yarn dev --host` and now everything setup on the bots wifi. 
+In order to run the script on the bot, have it embedded or called within a teleop or auto(not tested) class. To run the websocket server, run a simple handler while connected to the bot wifi and bind the websocket to the bots IP `192.168.43.62:PORT` To run the dashboard code, cd into the directory containing the code for the dashboard and run `yarn dev --host` After this, everything should be setup on the bots wifi. 
 
 ## This is still WIP
