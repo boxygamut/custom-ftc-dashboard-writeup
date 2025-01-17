@@ -167,37 +167,37 @@ const [codeContent, setCodeContent] = useState([]);
 Almost complete websocket code for the bot
 ```java
 try {
-            webSocket = new WebSocketClient(new URI("ws://192.168.43.62:8765")) {
-                @Override
-                public void onOpen(ServerHandshake handshakedata) {
-                    telemetry.addData("WebSocket", "Connected");
-                    telemetry.update();
-                }
-
-                @Override
-                public void onMessage(String message) {
-                    telemetry.addData("WebSocket Received", message);
-                    telemetry.update();
-                }
-
-                @Override
-                public void onClose(int code, String reason, boolean remote) {
-                    telemetry.addData("WebSocket", "Connection closed: " + reason);
-                    telemetry.update();
-                }
-
-                @Override
-                public void onError(Exception ex) {
-                    telemetry.addData("WebSocket Error", ex.getMessage());
-                    telemetry.update();
-                }
-            };
-
-            webSocket.connect();
-        } catch (URISyntaxException e) {
-            telemetry.addData("WebSocket Error", "Invalid URI: " + e.getMessage());
+    webSocket = new WebSocketClient(new URI("ws://192.168.43.62:8765")) {
+        @Override
+        public void onOpen(ServerHandshake handshakedata) {
+            telemetry.addData("WebSocket", "Connected");
             telemetry.update();
         }
+
+        @Override
+        public void onMessage(String message) {
+            telemetry.addData("WebSocket Received", message);
+            telemetry.update();
+        }
+
+        @Override
+        public void onClose(int code, String reason, boolean remote) {
+            telemetry.addData("WebSocket", "Connection closed: " + reason);
+            telemetry.update();
+        }
+
+        @Override
+        public void onError(Exception ex) {
+            telemetry.addData("WebSocket Error", ex.getMessage());
+            telemetry.update();
+        }
+    };
+
+    webSocket.connect();
+} catch (URISyntaxException e) {
+    telemetry.addData("WebSocket Error", "Invalid URI: " + e.getMessage());
+    telemetry.update();
+}
 ```
 This code was used before `waitForStart();` in teleop. To send data in the teleop loop, use the following code
 ```java
