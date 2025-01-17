@@ -162,7 +162,7 @@ const [codeContent, setCodeContent] = useState([]);
     };
   }, [connectWebSocket]);
 ```
-**WARNING: THIS CODE IS INCOMPLETE AND MIGHT NOT WORK AS A DIRECT COPY AND PASTE**
+**WARNING: THE CODE ABOVE IS INCOMPLETE AND MIGHT NOT WORK AS A DIRECT COPY AND PASTE**
 
 Almost complete websocket code for the bot
 ```java
