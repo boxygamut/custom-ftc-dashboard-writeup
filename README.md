@@ -4,11 +4,12 @@ Write-up/Guide on how to customize the [acmerobotics FTC Dashboard](https://gith
 Concepts covered in this write-up are meant for REV Control Hubs
 
 **DISCLAIMER:** SOME OF THE CONCEPTS SHOWN HERE HAVE NOT BEEN TESTED, THEY ARE THEORETICAL AND SHOULD WORK(I'm too lazy to test them)
+If you need any help, feel free to reach out
 
 # Why Customize Your Dashboard?
 Most teams won't need this because the default dashboard is enough, however, sometimes a little customization could go a long way in boosting productivity. Unfortunately(unless I'm stupid), there is no simple way to modify the dashboard and directly compile it onto the bot. This write-up will explain a simple(or complex) workaround to customize the dashboard and do whatever you want with it.
 
-# 1. The Concept
+# 1. The Idea
 There is nothing special about this, it's just a simple data relaying method to a self-hosted dashboard. A simple example would go as follows: Bot transmits data to a server/backend on a computer which then relays the data to the self-hosted dashboard. This has been tested using websockets, but there are other ways to go about transmitting the data. 
 
 # 2. A Faster Way
@@ -97,7 +98,7 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-Incomplete snippet 
+Incomplete snippet, meant for receiving text from the websocket and updating the text box on the custom dashboard
 
 ```javascript
 import React, { useEffect, useState, useCallback} from 'react';
