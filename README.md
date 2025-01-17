@@ -4,6 +4,7 @@ Write-up/Guide on how to customize the [acmerobotics FTC Dashboard](https://gith
 Concepts covered in this write-up are meant for REV Control Hubs
 
 **DISCLAIMER:** SOME OF THE CONCEPTS SHOWN HERE HAVE NOT BEEN TESTED, THEY ARE THEORETICAL AND SHOULD WORK(I'm too lazy to test them) I ALSO MIGHT'VE MADE MISTAKES WRITING THIS, SO PLEASE LET ME KNOW IF I GOT ANYTHING WRONG
+
 If you need any help, feel free to reach out
 
 # Why Customize Your Dashboard?
