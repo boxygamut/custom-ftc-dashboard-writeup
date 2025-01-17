@@ -3,7 +3,7 @@ Write-up/Guide on how to customize the [acmerobotics FTC Dashboard](https://gith
 
 Concepts covered in this write-up are meant for REV Control Hubs
 
-**DISCLAIMER:** SOME OF THE CONCEPTS SHOWN HERE HAVE NOT BEEN TESTED, THEY ARE THEORETICAL AND SHOULD WORK(I'm too lazy to test them)
+**DISCLAIMER:** SOME OF THE CONCEPTS SHOWN HERE HAVE NOT BEEN TESTED, THEY ARE THEORETICAL AND SHOULD WORK(I'm too lazy to test them) I ALSO MIGHT'VE MADE MISTAKES WRITING THIS, SO PLEASE LET ME KNOW IF I GOT ANYTHING WRONG
 If you need any help, feel free to reach out
 
 # Why Customize Your Dashboard?
@@ -29,7 +29,7 @@ Components: <br>
 In order to run the script on the bot, have it embedded or called within a teleop or auto(not tested) class. To run the websocket server, run a simple handler while connected to the bot wifi and bind the websocket to the bots IP `192.168.43.62:PORT` To run the dashboard code, cd into the directory containing the code for the dashboard and run `yarn dev --host` After this, everything should be setup on the bots wifi. 
 
 
-# 5. Sample Scripts(Tested)
+# 5. Sample Scripts(Mostly tested, still improving reconnection and error handling)
 
 Complete sample script for locally hosted websocket server made in python 3.9.11:
 ```python
