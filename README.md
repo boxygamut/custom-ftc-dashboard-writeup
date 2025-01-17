@@ -27,4 +27,185 @@ Components: <br>
 
 In order to run the script on the bot, have it embedded or called within a teleop or auto(not tested) class. To run the websocket server, run a simple handler while connected to the bot wifi and bind the websocket to the bots IP `192.168.43.62:PORT` To run the dashboard code, cd into the directory containing the code for the dashboard and run `yarn dev --host` After this, everything should be setup on the bots wifi. 
 
+
+# 5. Sample Scripts(Tested)
+
+Complete sample script for locally hosted websocket server made in python 3.9.11:
+```python
+import asyncio
+import websockets
+import json
+import signal
+
+class CodeServer:
+    def __init__(self):
+        self.clients = set()
+        self.should_exit = False
+
+    async def register(self, websocket):
+        if websocket not in self.clients:
+            self.clients.add(websocket)
+            print(f"Added {websocket}")
+        
+        asyncio.create_task(self.handle_disconnect(websocket)) # await websocket.wait_closed() freezes the program so it's run in the background(Very crucial)
+            
+    async def handle_disconnect(self, websocket):
+        try:
+            await websocket.wait_closed()
+        finally:
+            self.clients.remove(websocket)
+            print(f"Removed {websocket}")
+
+    async def broadcast(self, message):
+        if self.clients:
+            await asyncio.gather(
+                *[client.send(message) for client in self.clients]
+            )
+
+    async def handle_connection(self, websocket):
+
+        await self.register(websocket) # Register the websocket
+        
+        try:
+            async for message in websocket:
+                print(f"Received message {message}")
+                await self.broadcast(json.dumps({"code": message}))
+        except websockets.exceptions.ConnectionClosedOK:
+            print("Disconnected")
+        except Exception as e:
+            raise e
+
+    def handle_signal(self, signum, frame):
+        self.should_exit = True
+        print("\nShutting down server...")
+
+async def main():
+    server = CodeServer()
+    signal.signal(signal.SIGINT, server.handle_signal)
+    
+    # Create the WebSocket server with handler
+    async with websockets.serve(server.handle_connection, "192.168.43.62", 8765):
+        print("WebSocket server started on ws://192.168.43.62:8765")
+        
+        # No idea
+        while not server.should_exit:
+            
+            # Code breaks for me if this isn't there
+            await asyncio.sleep(1)
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+Incomplete snippet 
+
+```javascript
+import React, { useEffect, useState, useCallback} from 'react';
+const RECONNECT_INTERVAL = 3000;
+
+const [codeContent, setCodeContent] = useState([]);
+  const [socket, setSocket] = useState(null);
+  const [isConnected, setIsConnected] = useState(false);
+
+  const connectWebSocket = useCallback(() => {
+    try {
+      const ws = new WebSocket('ws://192.168.43.62:8765');
+      // ws://192.168.43.62:8765
+
+      ws.onopen = () => {
+        console.log('Connected to WebSocket server');
+        setIsConnected(true);
+      };
+
+      ws.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          if (data.code) {
+            setCodeContent(data.code.split('\n'));
+          }
+        } catch (error) {
+          console.error('Error parsing WebSocket message:', error);
+        }
+      };
+
+      ws.onerror = (error) => {
+        console.error('WebSocket error:', error);
+      };
+
+      ws.onclose = () => {
+        console.log('WebSocket connection closed');
+        setIsConnected(false);
+        setSocket(null);
+        
+        // Reconnect
+        setTimeout(connectWebSocket, RECONNECT_INTERVAL);
+      };
+
+      setSocket(ws);
+    } catch (error) {
+      console.error('Error creating WebSocket:', error);
+      // Reconnect
+      setTimeout(connectWebSocket, RECONNECT_INTERVAL);
+    }
+  }, []);
+
+  useEffect(() => {
+    connectWebSocket();
+
+    // Cleanup
+    return () => {
+      if (socket) {
+        socket.close();
+      }
+    };
+  }, [connectWebSocket]);
+```
+**WARNING: THIS CODE IS INCOMPLETE AND MIGHT NOT WORK AS A DIRECT COPY AND PASTE**
+
+Almost complete websocket code for the bot
+```java
+try {
+            webSocket = new WebSocketClient(new URI("ws://192.168.43.62:8765")) {
+                @Override
+                public void onOpen(ServerHandshake handshakedata) {
+                    telemetry.addData("WebSocket", "Connected");
+                    telemetry.update();
+                }
+
+                @Override
+                public void onMessage(String message) {
+                    telemetry.addData("WebSocket Received", message);
+                    telemetry.update();
+                }
+
+                @Override
+                public void onClose(int code, String reason, boolean remote) {
+                    telemetry.addData("WebSocket", "Connection closed: " + reason);
+                    telemetry.update();
+                }
+
+                @Override
+                public void onError(Exception ex) {
+                    telemetry.addData("WebSocket Error", ex.getMessage());
+                    telemetry.update();
+                }
+            };
+
+            webSocket.connect();
+        } catch (URISyntaxException e) {
+            telemetry.addData("WebSocket Error", "Invalid URI: " + e.getMessage());
+            telemetry.update();
+        }
+```
+This code was used before `waitForStart();` in teleop. To send data in the teleop loop, use the following code
+```java
+if (webSocket != null && webSocket.isOpen()) {
+    webSocket.send(DATA GOES HERE);
+    telemetry.addData("WebSocket", DATA VARIABLE GOES HERE); // This isn't necessary, it's just for debugging
+} else {
+    telemetry.addData("WebSocket", "Not connected");
+}
+```
+
+
 ## This is still WIP
