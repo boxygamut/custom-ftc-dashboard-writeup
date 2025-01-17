@@ -12,6 +12,7 @@ Most teams won't need this because the default dashboard is enough, however, som
 
 # 1. Explanation
 A simple way to do this is to use a simple data relaying method to a self-hosted dashboard. A simple example would go as follows: Bot transmits data to a server/backend on a computer which then relays the data to the self-hosted dashboard. This has been tested using websockets, but there are other ways to go about transmitting the data. 
+![Sort of how it goes](https://imgur.com/AdF6zWw)
 
 # 2. A Faster Way
 A faster way to do the same thing done in #1 is to just directly relay all the data from the bot to the dashboard. However, this hasn't been tested yet since it's very hard to debug when it's end to end and hosting the websocket server on either the dashboard or the bot is generally not a good idea.
