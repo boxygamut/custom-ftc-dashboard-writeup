@@ -231,4 +231,8 @@ if (webSocket != null && webSocket.isOpen()) {
 ```
 
 
+
+# Some Other Things
+Since websockets can send in bytes, you can do a lot more than just sending text. Data from images can be converted into bytes, which can then be sent to the backend where it'll be decoded and written in a easily decodeable format and sent to the frontend to be displayed. On a MacBook M3 Pro using wscat for simulating the bot, 183.9 MB of data was sent to the backend in around 29.1 milliseconds.
+
 ## This is still WIP
