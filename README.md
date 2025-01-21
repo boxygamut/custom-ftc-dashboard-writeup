@@ -230,6 +230,9 @@ if (webSocket != null && webSocket.isOpen()) {
 }
 ```
 
+# Known Issues
+1. The IP address for the websockets is different for each computer because it is using the IPv4 address. The normal dashboard uses a DNS nameserver, so it has a default IP. There's most likely a fix for this, I just don't know about it yet
+
 
 
 # Some Other Things
